@@ -1,0 +1,44 @@
+# CI for sdd-core-agent-workflow.
+# Gating policy: the `required` job is intended as a required merge check via
+# the ruleset documented in .github/branch-protection-ruleset.md (Agent Zero
+# publication authorization, 2026-07-23). The windows-advisory job runs the
+# identical verification on Windows; promotion to required is planned once
+# stable (this repo is developed on Windows).
+# When Gate 2 lands executable code, the verify step extends to the canonical
+# `npm run verify` chain (format:check → lint --max-warnings 0 → typecheck →
+# test:ci → build → generated-drift check) in the same jobs.
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  required:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+        with:
+          persist-credentials: false
+      - name: verify-layout
+        run: bash verify-layout.sh
+
+  windows-advisory:
+    runs-on: windows-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+        with:
+          persist-credentials: false
+      - name: verify-layout
+        shell: bash
+        run: bash verify-layout.sh

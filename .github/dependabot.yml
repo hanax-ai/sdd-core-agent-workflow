@@ -1,0 +1,14 @@
+# Dependency policy: zero runtime dependencies (Node stdlib only); dev
+# dependencies arrive with Gate 2 code, at which point an npm ecosystem
+# entry is added here with the same monthly grouped shape.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    open-pull-requests-limit: 5
+    groups:
+      actions:
+        patterns:
+          - "*"

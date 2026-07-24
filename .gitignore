@@ -1,4 +1,23 @@
+# OS noise
 Thumbs.db
 .DS_Store
 *.log
+
+# Toolchain
 node_modules/
+
+# Machine-tier harness config (acknowledged, not governed)
+.claude/
+
+# Evidence-class rule: live control-plane record CONTENT is machine-local.
+# Policy files, READMEs, and synthetic templates are committed; instances are not.
+ledgers/*
+!ledgers/README.md
+work-orders/*
+!work-orders/README.md
+decisions/*
+!decisions/README.md
+
+# Derived read-model index (rebuildable from canonical records; never committed)
+*.db
+*.sqlite
