@@ -45,7 +45,7 @@ flowchart TB
 ```
 
 Governance artifacts (specs, plans, normative schemas) live in `sdd-core`;
-executable harness code lives here; the dashboard reports. No repository
+executable harness code lands here only after Gate 2; the dashboard reports. No repository
 grants authority to another — every arrow from Agent Zero is an explicit,
 recorded decision.
 
